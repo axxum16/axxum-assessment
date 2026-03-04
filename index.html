@@ -384,14 +384,14 @@ function submitForm() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       fields: [
-        { name:'firstname', value:firstName },
-        { name:'lastname', value:lastName },
-        { name:'company', value:company },
-        { name:'jobtitle', value:jobTitle },
-        { name:'email', value:email },
-        { name:'industry', value:industry },
-        { name:'message', value:`Change Readiness Score: ${score}% | Recommendation: ${tier}` },
-      ],
+  { objectTypeId:'0-1', name:'firstname', value:firstName },
+  { objectTypeId:'0-1', name:'lastname', value:lastName },
+  { objectTypeId:'0-1', name:'company', value:company },
+  { objectTypeId:'0-1', name:'jobtitle', value:jobTitle },
+  { objectTypeId:'0-1', name:'email', value:email },
+  { objectTypeId:'0-1', name:'industry', value:industry },
+  { objectTypeId:'0-1', name:'message', value:`Change Readiness Score: ${score}% | Recommendation: ${tier}` },
+],
       context: { pageUri: window.location.href, pageName: 'Axxum Change Readiness Assessment' }
     })
   }).then(res => res.text()).then(text => {
