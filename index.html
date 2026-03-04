@@ -362,6 +362,7 @@ function getRec(score) {
 }
 
 function submitForm() {
+  alert('Submit button clicked');
   const firstName = document.getElementById('firstName').value.trim();
   const lastName = document.getElementById('lastName').value.trim();
   const company = document.getElementById('company').value.trim();
@@ -372,10 +373,12 @@ function submitForm() {
   if (!firstName||!lastName||!company||!industry||!jobTitle||!email) { errEl.textContent="All fields are required."; errEl.style.display='block'; return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent="Please enter a valid email address."; errEl.style.display='block'; return; }
   errEl.style.display='none';
+  alert('Validation passed - about to call HubSpot');
   const btn = document.getElementById('submitBtn');
   btn.disabled = true; btn.textContent = 'Submitting...';
   const score = totalScore();
   const tier = getRec(score).name;
+  alert('Score: ' + score + ' | Tier: ' + tier);
   fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${FORM_ID}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -392,12 +395,12 @@ function submitForm() {
       context: { pageUri: window.location.href, pageName: 'Axxum Change Readiness Assessment' }
     })
   }).then(res => res.text()).then(text => {
-  alert('HubSpot says: ' + text);
-  renderResults(score, firstName); showScreen('results');
-}).catch(err => {
-  alert('Error: ' + err.message);
-  renderResults(score, firstName); showScreen('results');
-});
+    alert('HubSpot response: ' + text);
+    renderResults(score, firstName); showScreen('results');
+  }).catch(err => {
+    alert('Fetch error: ' + err.message);
+    renderResults(score, firstName); showScreen('results');
+  });
 }
 
 function renderResults(score, firstName) {
