@@ -391,7 +391,13 @@ function submitForm() {
       ],
       context: { pageUri: window.location.href, pageName: 'Axxum Change Readiness Assessment' }
     })
-  }).catch(() => {}).finally(() => { renderResults(score, firstName); showScreen('results'); });
+  }).then(res => res.text()).then(text => {
+  alert('HubSpot says: ' + text);
+  renderResults(score, firstName); showScreen('results');
+}).catch(err => {
+  alert('Error: ' + err.message);
+  renderResults(score, firstName); showScreen('results');
+});
 }
 
 function renderResults(score, firstName) {
